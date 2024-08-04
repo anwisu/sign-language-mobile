@@ -32,7 +32,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="charts"
         options={{
           title: 'Charts',
@@ -40,7 +40,7 @@ export default function TabLayout() {
             <TabBarIcon name={focused ? 'bar-chart' : 'bar-chart-outline'} color={color} />
           ),
         }}
-      />
+      /> */}
     </Tabs>
   );
 }

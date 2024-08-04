@@ -1,30 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import Perfect from "@/assets/images/1.png";
-import TooNear from "@/assets/images/2.png";
-import TooFar from "@/assets/images/3.png";
+import { View, Text, Image, StyleSheet, ImageSourcePropType } from 'react-native';
+import Perfect from "@/assets/images/24.png";
+import TooNear from "@/assets/images/25.png";
+import TooFar from "@/assets/images/26.png";
+import HandUndetectedImg from "@/assets/images/10.png";
 
 export const UltrasonicSensor = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const gestures = [
-        { image: Perfect, text: "Person is in perfect positon" },
-        { image: TooNear, text: "Person distance is too near" },
-        { image: TooFar, text: "Person distance is too far" },
-    ];
+    const [data, setData] = useState({ image: HandUndetectedImg, text: 'No data available' });
 
     useEffect(() => {
-        const toggleGesture = () => {
-            const randomIndex = Math.floor(Math.random() * gestures.length);
-            setCurrentIndex(randomIndex);
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://raspi-server.onrender.com/api/v1/ultrasonicsensor/latest');
+
+                const result = await response.json();
+
+                if (!result || result.distance === undefined || result.distance === null) {
+                    setData({ image: HandUndetectedImg, text: 'No data available' });
+                    return;
+                }
+
+                const distance = result.distance;
+                const roundedDistance = +distance.toFixed(2);
+                let newData = { image: HandUndetectedImg, text: 'No data available' }; // Default fallback
+
+                if (distance === 0 || (distance >= 1 && distance <= 29)) {
+                    newData = { image: TooNear, text: `User distance is too near (${roundedDistance} cm)` };
+                } else if (distance >= 30 && distance <= 100) {
+                    newData = { image: Perfect, text: `User is in perfect position (${roundedDistance} cm)` };
+                } else if (distance >= 101 && distance <= 500) {
+                    newData = { image: TooFar, text: `User distance is too far (${roundedDistance} cm)` };
+                }
+
+                setData(newData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setData({ image: HandUndetectedImg, text: 'No data available' });
+            }
         };
 
-        const randomInterval = Math.floor(Math.random() * 5000) + 1000;
-        const timer = setTimeout(toggleGesture, randomInterval);
+        fetchData();
+        const interval = setInterval(fetchData, 500);
+        return () => clearInterval(interval);
+    }, []);
 
-        return () => clearTimeout(timer);
-    }, [currentIndex, gestures.length]);
-
-    const { image, text } = gestures[currentIndex];
+    const { image, text } = data;
 
     return (
         <View style={styles.card}>
@@ -41,8 +61,8 @@ export const UltrasonicSensor = () => {
 
 const styles = StyleSheet.create({
     card: {
-        width: '100%', 
-        aspectRatio: 1, 
+        width: '100%',
+        aspectRatio: 1,
         justifyContent: 'center',
         alignItems: 'center',
         margin: 10,
@@ -50,7 +70,7 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 8,
         backgroundColor: '#071d26',
-        alignSelf: 'center', 
+        alignSelf: 'center',
     },
     cardBody: {
         justifyContent: 'center',
@@ -73,9 +93,9 @@ const styles = StyleSheet.create({
     },
     image: {
         width: '75%',
-        height: undefined, 
-        aspectRatio: 1, 
-        resizeMode: 'contain', 
+        height: undefined,
+        aspectRatio: 1,
+        resizeMode: 'contain',
     },
     subtitle: {
         paddingTop: 6,
@@ -83,7 +103,6 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         fontWeight: 'bold',
         textAlign: 'center',
-        textTransform: 'capitalize',
         color: 'white',
     },
 });

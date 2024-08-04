@@ -21,7 +21,7 @@ export default function HomeScreen() {
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Members:</ThemedText>
-          <FlatList
+        <FlatList
           data={[
             { key: 'Cabauatan, Jianella Guia' },
             { key: 'Eguiron, Jonas' },

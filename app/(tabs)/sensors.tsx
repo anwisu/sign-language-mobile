@@ -7,8 +7,9 @@ import { FlexSensor } from '@/components/flexSensor';
 import { GyroSensor } from '@/components/gyroSensor';
 import { Speaker } from '@/components/speaker';
 import { UltrasonicSensor } from '@/components/ultrasonicSensor';
+import { Message } from '@/components/message';
 
-export default function Sensors() { // Assuming you're using React Navigation
+export default function Sensors() {
 
     return (
         <ScrollView style={{ marginTop: 25 }}>
@@ -19,10 +20,11 @@ export default function Sensors() { // Assuming you're using React Navigation
             </TouchableOpacity> */}
             <View style={styles.sensorsContainer}>
                 <CameraGesture />
-                <CameraIdentification />
+                {/* <CameraIdentification /> */}
                 <FlexSensor />
                 <GyroSensor />
-                <Speaker />
+                <Message />
+                {/* <Speaker /> */}
                 <UltrasonicSensor />
             </View>
         </View>
