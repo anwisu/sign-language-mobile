@@ -33,7 +33,7 @@ export const CameraGesture = () => {
 
         const fetchHandGestureData = async () => {
             try {
-                const { data } = await axios.get('https://raspi-server.onrender.com/api/v1/hand/latest');
+                const { data } = await axios.get('https://raspi-server-1.onrender.com/api/v1/hand/latest');
                 
                 if (isInitialRender.current) {
                     // Skip the speech on initial render

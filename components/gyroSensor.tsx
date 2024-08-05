@@ -30,7 +30,7 @@ export const GyroSensor = () => {
         const fetchLatestGyroData = async () => {
             try {
                 const { data } = await axios.get(
-                    "https://raspi-server.onrender.com/api/v1/gyrosensor/latest"
+                    "https://raspi-server-1.onrender.com/api/v1/gyrosensor/latest"
                 );
                 if (data.accelerometer && data.gyroscope) {
                     const roundedAccelerometer = {

@@ -11,7 +11,7 @@ export const UltrasonicSensor = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://raspi-server.onrender.com/api/v1/ultrasonicsensor/latest');
+                const response = await fetch('https://raspi-server-1.onrender.com/api/v1/ultrasonicsensor/latest');
 
                 const result = await response.json();
 

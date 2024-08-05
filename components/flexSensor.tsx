@@ -41,7 +41,7 @@ export const FlexSensor = () => {
     useEffect(() => {
         const fetchLatestFlexSensorData = async () => {
             try {
-                const { data } = await axios.get('https://raspi-server.onrender.com/api/v1/flexsensor/latest');
+                const { data } = await axios.get('https://raspi-server-1.onrender.com/api/v1/flexsensor/latest');
                 if (data) {
                     setFlexData({
                         flex1: data.flex1,
